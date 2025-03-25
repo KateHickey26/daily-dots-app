@@ -35,35 +35,59 @@ export default function DailyDots() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 p-6 font-mono">
-      <h1 className="text-3xl font-bold mb-6 text-center">Daily Dots</h1>
-      <div className="space-y-6">
+<div className="min-h-screen p-10 font-handwritten bg-neutral-100">
+  <h1 className="text-3xl font-bold mb-6 text-center">Daily Dots</h1>
+  <div className="relative overflow-visible max-w-3xl mx-auto bg-white border border-gray-300 rounded-xl shadow p-6">    {/* 🎀 Washi tape accents */}
+    
+    {/* Top tape */}
+    <div className="absolute -top-3 -left-4 w-16 h-4 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] bg-repeat bg-accent rotate-[-6deg] rounded-sm rounded-bl-none opacity-80 shadow-md"></div>
+    <div className="absolute -top-3 -right-3 w-16 h-4 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] bg-repeat bg-accent rotate-[6deg] rounded-sm rounded-bl-none opacity-80 shadow-md"></div>
+
+    {/* Bottom tape */}
+    <div className="absolute -bottom-3 -left-4 w-16 h-4 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] bg-repeat bg-accent rotate-[6deg] rounded-sm rounded-bl-none opacity-80 shadow-md"></div>
+    <div className="absolute -bottom-3 -right-3 w-16 h-4 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] bg-repeat bg-accent rotate-[-10deg] rounded-sm rounded-bl-none opacity-80 shadow-md"></div>
+
+    <table className="min-w-full border border-gray-300 rounded-xl">
+      <thead className="bg-paper text-ink">
+        <tr>
+          <th className="p-3 text-left">Habit</th>
+          {daysOfWeek.map((day, j) => (
+            <th key={j} className="p-3 text-sm">{day}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="bg-white">
         {habits.map((habit, i) => (
-          <div key={i} className="bg-white rounded-2xl shadow p-4">
-            <input
-              type="text"
-              placeholder={`Habit ${i + 1}`}
-              value={habit}
-              onChange={(e) => handleHabitNameChange(i, e.target.value)}
-              className="w-full mb-4 p-2 border border-gray-300 rounded"
-            />
-            <div className="grid grid-cols-7 gap-2 mb-2">
-              {daysOfWeek.map((day, j) => (
+          <tr key={i} className="border-t border-gray-200">
+            <td className="p-3">
+              <input
+                type="text"
+                placeholder={`Habit ${i + 1}`}
+                value={habit}
+                onChange={(e) => handleHabitNameChange(i, e.target.value)}
+                className="w-full p-1 border-b border-gray-300 bg-transparent focus:outline-none"
+              />
+            </td>
+            {daysOfWeek.map((_, j) => (
+              <td key={j} className="p-2 text-center">
                 <button
-                  key={j}
                   onClick={() => toggleCheck(i, j)}
-                  className={`h-10 rounded border text-sm font-medium ${
-                    habitChecks[i][j] ? 'bg-black text-white' : 'bg-white text-black border-gray-300'
+                  className={`w-8 h-8 rounded-sm border-2 transition ${
+                    habitChecks[i][j]
+                      ? 'bg-accent border-accent text-white'
+                      : 'bg-white border-gray-300'
                   }`}
                 >
-                  {day}
+                  {habitChecks[i][j] ? '✓' : ''}
                 </button>
-              ))}
-            </div>
-            <p className="text-sm text-gray-500">Streak: {calculateStreak(habitChecks[i])} days</p>
-          </div>
+              </td>
+            ))}
+          </tr>
         ))}
-      </div>
-    </div>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
   );
 }
