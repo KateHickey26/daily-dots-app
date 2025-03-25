@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import { format } from 'date-fns';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const today = new Date();
+const currentDay = today.getDate();
+const currentMonth = today.toLocaleString('default', { month: 'long' });
+const currentYear = today.getFullYear();
+
+// Get all days of the current month
+const daysInMonth = new Date(currentYear, today.getMonth() + 1, 0).getDate();
+const dayArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
 export default function DailyDots() {
   const [habits, setHabits] = useState(['', '', '']);
@@ -25,19 +34,71 @@ export default function DailyDots() {
     setHabitChecks(newChecks);
   };
 
+  const getTodayIndex = () => {
+    const jsDay = new Date().getDay(); // Sunday = 0
+    return jsDay === 0 ? 6 : jsDay - 1; // Our array starts with Monday = 0
+  };
+
   const calculateStreak = (checks) => {
+    const today = new Date().getDay(); // Sunday = 0
+    const todayIndex = today === 0 ? 6 : today - 1; // align to your Mon–Sun array
+  
     let streak = 0;
-    for (let i = 0; i < checks.length; i++) {
-      if (checks[i]) streak++;
-      else streak = 0;
+    for (let i = todayIndex; i >= 0; i--) {
+      if (checks[i]) {
+        streak++;
+      } else {
+        break;
+      }
     }
     return streak;
   };
 
   return (
-    <div className="min-h-screen p-10 font-body bg-neutral-100">
-      <h1 className="text-4xl font-title mb-6 text-center">Daily Dots</h1>
+    
+    <div className="relative min-h-screen pt-20 p-10 font-body bg-neutral-100">
+
+      {/* Bunting */}
+      <img
+        src="/bunting-transparent.png"  
+        alt="Habit Tracker bunting"
+        className="absolute top-4 left-0 w-[50%] max-w-[500px] z-10 pointer-events-none opacity-70 rotate-[-5deg]"
+      />
+
+      {/* Heading */}
+      <header className="relative mb-20 max-w-5xl mx-auto px-4">
+        <h1 className="text-5xl md:text-6xl font-body text-center">Daily Dots</h1>
+        {/* Calendar */}
+        <div className="absolute -top-10 right-0 w-28 p-2 rounded-md shadow-md text-center text-[10px] bg-green-100 border border-green-200 hover:rotate-[3deg] hover:-translate-y-0.5 transition-transform duration-200 ease-in-out">
+        <div className="text-xs font-delius tracking-wide text-gray-800 mb-1 leading-none">
+          {currentMonth}
+        </div>
+        <div className="text-[8px] text-gray-400 mb-0">{currentYear}</div>
+          <div className="grid grid-cols-7 gap-0.2 text-[8px]">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => (
+              <div key={d} className="font-bold text-gray-500">{d}</div>
+            ))}
+            {Array.from({ length: new Date(currentYear, today.getMonth(), 1).getDay() }).map((_, i) => (
+              <div key={`pad-${i}`} />
+            ))}
+            {dayArray.map((day) => (
+              <div
+                key={day}
+                className={`w-3.5 h-3.5 text-[9px] rounded-full flex items-center justify-center ${
+                  day === currentDay
+                    ? 'bg-accent font-bold'
+                    : 'text-gray-700'
+                }`}
+              >
+                {day}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="absolute -top-12 right-4 w-16 h-4 bg-white bg-[url('https://www.transparenttextures.com/patterns/linen.png')] bg-repeat rounded-sm rotate-[3deg] shadow opacity-70"></div>
+      </header>
       <div
+      // Background
       className="relative overflow-visible max-w-3xl mx-auto border border-gray-300 rounded-xl shadow p-6"
       style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.8' fill='%23ccc'/%3E%3C/svg%3E")`,
@@ -45,7 +106,8 @@ export default function DailyDots() {
         backgroundRepeat: 'repeat',
       }}
     >
-    
+
+
     {/* Washi tape accents */}
     {/* Top tape */}
     <div
@@ -105,6 +167,7 @@ export default function DailyDots() {
           {daysOfWeek.map((day, j) => (
             <th key={j} className="p-3 text-sm">{day}</th>
           ))}
+          <th className="p-3 text-sm">Streak</th>
         </tr>
       </thead>
       <tbody className="bg-white">
@@ -119,20 +182,30 @@ export default function DailyDots() {
                 className="w-full p-1 border-b border-gray-300 bg-transparent focus:outline-none"
               />
             </td>
-            {daysOfWeek.map((_, j) => (
-              <td key={j} className="p-2 text-center">
-                <button
-                  onClick={() => toggleCheck(i, j)}
-                  className={`w-8 h-8 rounded-sm border-2 transition ${
-                    habitChecks[i][j]
-                      ? 'bg-accent border-accent text-white'
-                      : 'bg-white border-gray-300'
-                  }`}
-                >
-                  {habitChecks[i][j] ? '✓' : ''}
-                </button>
+            {daysOfWeek.map((_, j) => {
+            const isFuture = j > getTodayIndex();
+
+              return (
+                <td key={j} className="p-2 text-center">
+                  <button
+                    onClick={() => !isFuture && toggleCheck(i, j)}
+                    disabled={isFuture}
+                    className={`w-8 h-8 rounded-sm border-2 transition flex items-center justify-center ${
+                      habitChecks[i][j]
+                        ? 'bg-accent border-accent'
+                        : 'bg-white border-gray-300'
+                    } ${isFuture ? 'opacity-40 cursor-not-allowed' : ''}`}
+                  >
+                    <span className={habitChecks[i][j] ? 'text-black' : 'text-transparent'}>
+                      ✓
+                    </span>
+                  </button>
+                </td>
+              );
+            })}
+              <td className="p-2 text-center font-semibold">
+                {calculateStreak(habitChecks[i])}
               </td>
-            ))}
           </tr>
         ))}
       </tbody>
@@ -140,7 +213,7 @@ export default function DailyDots() {
     
   </div>
 
-  {/* Font previews */}
+  {/* Font previews
   <div className="max-w-3xl mx-auto mt-10 space-y-6">
   <h2 className="text-2xl font-semibold mb-2">🖋️ Font Preview</h2>
 
@@ -154,7 +227,7 @@ export default function DailyDots() {
   <p className="font-schoolbell text-xl">Schoolbell – notebook-style fun</p>
   <p className="font-delius text-xl">Delius – rounded, soft, and balanced</p>
 
-</div>
+</div> */}
 </div>
 
   );
