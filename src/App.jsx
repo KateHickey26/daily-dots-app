@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const today = new Date();
@@ -184,29 +184,39 @@ export default function DailyDots() {
               />
             </td>
             {daysOfWeek.map((_, j) => {
-            const isFuture = j > getTodayIndex();
+              const isFuture = j > getTodayIndex();
 
               return (
                 <td key={j} className="p-2 text-center">
                   <button
                     onClick={() => !isFuture && toggleCheck(i, j)}
                     disabled={isFuture}
-                    className={`w-8 h-8 rounded-sm border-2 transition flex items-center justify-center ${
+                    className={`relative w-8 h-8 rounded-sm border-2 overflow-hidden transition ${
                       habitChecks[i][j]
-                        ? 'bg-accent border-accent'
-                        : 'bg-white border-gray-300'
+                        ? 'border-accent'
+                        : 'bg-white '
                     } ${isFuture ? 'opacity-40 cursor-not-allowed' : ''}`}
                   >
-                    <span className={habitChecks[i][j] ? 'text-black' : 'text-transparent'}>
-                      ✓
-                    </span>
+                    {habitChecks[i][j] && (
+                      <video
+                        ref={(el) => {
+                          if (el) el.playbackRate = 3.5;
+                        }}
+                        src="/scribble-fast.mp4"
+                        autoPlay
+                        muted
+                        playsInline
+                        loop={false}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    )}
                   </button>
                 </td>
               );
             })}
-              <td className="p-2 text-center font-semibold">
-                {calculateStreak(habitChecks[i])}
-              </td>
+            <td className="p-2 text-center font-semibold">
+              {calculateStreak(habitChecks[i])}
+            </td>
           </tr>
         ))}
       </tbody>
