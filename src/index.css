@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes buntingDrop {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes calendarSlide {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-bunting-drop {
+  animation: buntingDrop 1.8s ease-out forwards;
+}
+
+.animate-calendar-slide {
+  animation: calendarSlide 1.8s ease-out forwards;
+}
+
+.animate-tap-drop {
+  animation: tapeDrop 1.8s ease-out forwards;
+}
+
 @keyframes scribbleIn {
   from {
     clip-path: inset(0 100% 0 0);

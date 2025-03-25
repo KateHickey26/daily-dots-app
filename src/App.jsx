@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const today = new Date();
@@ -61,14 +61,14 @@ export default function DailyDots() {
       <img
         src="/bunting-transparent.png"  
         alt="Habit Tracker bunting"
-        className="absolute top-4 left-0 w-[50%] max-w-[500px] z-10 pointer-events-none opacity-70 rotate-[-5deg]"
+        className="absolute top-4 left-0 w-[50%] max-w-[500px] z-10 pointer-events-none opacity-70 rotate-[-5deg] animate-bunting-drop"
       />
 
       {/* Heading */}
       <header className="relative mb-20 max-w-5xl mx-auto px-4">
         <h1 className="text-5xl md:text-6xl font-body text-center">Daily Dots</h1>
         {/* Calendar */}
-        <div className="absolute -top-10 right-0 w-28 p-2 rounded-md shadow-md text-center text-[10px] bg-green-100 border border-green-200 hover:rotate-[3deg] hover:-translate-y-0.5 transition-transform duration-200 ease-in-out">
+        <div className="absolute -top-10 right-0 w-28 p-2 rounded-md shadow-md text-center text-[10px] bg-green-100 border border-green-200 hover:rotate-[3deg] hover:-translate-y-0.5 transition-transform duration-200 ease-in-out animate-calendar-slide duration-[1500ms]">
         <div className="text-xs font-delius tracking-wide text-gray-800 mb-1 leading-none">
           {currentMonth}
         </div>
@@ -92,7 +92,7 @@ export default function DailyDots() {
             ))}
           </div>
         </div>
-        <div className="absolute -top-12 right-4 w-16 h-4 bg-white bg-[url('https://www.transparenttextures.com/patterns/linen.png')] bg-repeat rounded-sm rotate-[3deg] shadow opacity-70"></div>
+        <div className="absolute -top-12 right-4 w-16 h-4 bg-white bg-[url('https://www.transparenttextures.com/patterns/linen.png')] bg-repeat rounded-sm rotate-[3deg] shadow opacity-70 animate-tape-drop duration-[600ms] delay-[20000ms]"></div>
       </header>
       <div
       // Background
@@ -108,7 +108,7 @@ export default function DailyDots() {
     {/* Washi tape accents */}
     {/* Top tape */}
     <div
-      className="absolute -top-3 -left-4 w-16 h-4 rotate-[-6deg] rounded-sm rounded-bl-none shadow-md animate-tape-drop"
+      className="absolute -top-3 -left-4 w-16 h-4 rotate-[-6deg] rounded-sm rounded-bl-none shadow-md"
       style={{
         backgroundImage: `
           linear-gradient(white, white),
@@ -116,11 +116,11 @@ export default function DailyDots() {
         `,
         backgroundBlendMode: 'multiply',
         animationDelay: '0.2s',
-        opacity: 0,
+        opacity: 80,
       }}
     ></div>
     <div
-      className="absolute -top-3 -right-4 w-16 h-4 rotate-[6deg] rounded-sm rounded-bl-none shadow-md animate-tape-drop"
+      className="absolute -top-3 -right-4 w-16 h-4 rotate-[6deg] rounded-sm rounded-bl-none shadow-md"
       style={{
         backgroundImage: `
           linear-gradient(white, white),
@@ -128,12 +128,12 @@ export default function DailyDots() {
         `,
         backgroundBlendMode: 'multiply',
         animationDelay: '0.2s',
-        opacity: 0,
+        opacity: 80,
       }}
     ></div>
     {/* Bottom tape */}
     <div
-      className="absolute -bottom-3 -left-4 w-16 h-4 rotate-[6deg] rounded-sm rounded-bl-none shadow-md animate-tape-drop"
+      className="absolute -bottom-3 -left-4 w-16 h-4 rotate-[6deg] rounded-sm rounded-bl-none shadow-md"
       style={{
         backgroundImage: `
           linear-gradient(white, white),
@@ -141,11 +141,11 @@ export default function DailyDots() {
         `,
         backgroundBlendMode: 'multiply',
         animationDelay: '0.2s',
-        opacity: 0,
+        opacity: 80,
       }}
     ></div>
     <div
-      className="absolute -bottom-3 -right-4 w-16 h-4 rotate-[-10deg] rounded-sm rounded-bl-none shadow-md animate-tape-drop"
+      className="absolute -bottom-3 -right-4 w-16 h-4 rotate-[-10deg] rounded-sm rounded-bl-none shadow-md"
       style={{
         backgroundImage: `
           linear-gradient(white, white),
@@ -153,7 +153,7 @@ export default function DailyDots() {
         `,
         backgroundBlendMode: 'multiply',
         animationDelay: '0.2s',
-        opacity: 0,
+        opacity: 80,
       }}
     ></div>
 
@@ -193,8 +193,8 @@ export default function DailyDots() {
                     disabled={isFuture}
                     className={`relative w-8 h-8 rounded-sm border-2 overflow-hidden transition ${
                       habitChecks[i][j]
-                        ? 'border-accent'
-                        : 'bg-white '
+                        ? 'bg-white border-accent'
+                        : 'bg-white border-gray-300'
                     } ${isFuture ? 'opacity-40 cursor-not-allowed' : ''}`}
                   >
                     {habitChecks[i][j] && (
