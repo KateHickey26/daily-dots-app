@@ -83,11 +83,9 @@ export default function DailyDots() {
             {dayArray.map((day) => (
               <div
                 key={day}
-                className={`w-3.5 h-3.5 text-[9px] rounded-full flex items-center justify-center ${
-                  day === currentDay
-                    ? 'bg-accent font-bold'
-                    : 'text-gray-700'
-                }`}
+                className={`w-3 h-3 text-[9px] font-semibold flex items-center justify-center rounded-sm
+                  ${day === currentDay ? 'bg-green-200 text-black shadow-inner' : 'text-gray-700'}
+                `}
               >
                 {day}
               </div>
@@ -162,11 +160,15 @@ export default function DailyDots() {
     <table className="min-w-full border border-gray-300 rounded-xl">
       <thead className="bg-paper text-ink">
         <tr>
-          <th className="p-3 text-left">Habit</th>
+        <th className="p-3 text-left align-middle">
+          <span className="px-1 bg-purple-200 rounded-sm">Habit</span>
+        </th>
           {daysOfWeek.map((day, j) => (
             <th key={j} className="p-3 text-sm">{day}</th>
           ))}
-          <th className="p-3 text-sm">Streak</th>
+        <th className="p-3 text-right align-middle">
+          <span className="px-1 bg-purple-200 rounded-sm">Streak</span>
+        </th>
         </tr>
       </thead>
       <tbody className="bg-white">

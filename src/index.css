@@ -8,3 +8,22 @@ body {
   background-image: radial-gradient(#e2e2e2 0.5px, transparent 0.5px);
   background-size: 16px 16px;
 }
+
+.highlight-hand {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-hand {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-hand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #e0e7ff 60%, transparent 40%);
+  z-index: -1;
+  border-radius: 2px;
+}
