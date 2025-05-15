@@ -1,21 +1,28 @@
 # Daily Dots
 
-**Daily Dots** is a minimalist, bullet journal–style habit tracker that lets you track habits each week using a simple and cosy interface. Stay motivated with streaks and visual rewards as you build your daily routine.
+**Daily Dots** is a minimalist, bullet journal–style habit tracker that lets you track habits each week using a simple and cosy interface. Stay motivated with streaks as you build your daily routine.
 
 ---
 
-## ✨ Features
+## Features
 
-- Track your weekly habits
-- Clean, minimalist UI inspired by bullet journals
-- **7-day view** with checkboxes for each habit
-- Automatic **streak tracking**
-- Styled with **Tailwind CSS**
-- Built with **React** and **Vite** for speed and simplicity
+- Track your weekly habits, up to 10 per week
+- Add or remove habit rows dynamically
+- Clean, minimalist UI inspired by bullet journals, with washi tape accents & bunting
+- Animated scribble fill on checkboxes
+- Built-in calendar with current week highlight and date circled
 
 ---
 
-## 🚀 Getting Started
+## Live Demo 
+
+👉 [Check it out on Vercel](https://your-vercel-url.vercel.app)  
+_(Update this with your actual deployment URL)_
+
+
+---
+
+## Running Locally
 
 ### 1. Clone or download the project
 
@@ -33,15 +40,19 @@ Your app will be running at [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
+- Built with **React** and **Vite** for speed and simplicity
+    - [React](https://reactjs.org/)
+    - [Vite](https://vitejs.dev/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
 
 ---
 
-## 📜 License
+## License
 
 MIT — feel free to use and adapt for your own habit-tracking needs!
 
+---
+
+Made with 💜 and lists.

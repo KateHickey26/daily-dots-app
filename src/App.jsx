@@ -102,7 +102,7 @@ export default function DailyDots() {
               <div
                 key={day}
                 className={`relative w-3 h-3 text-[9px] font-semibold flex items-center justify-center rounded-sm
-                  ${currentWeekDays.includes(day) ? 'bg-green-300' : ''}
+                  ${currentWeekDays.includes(day) ? 'bg-green-200' : ''}
                 `}
               >
                 {day}
@@ -283,6 +283,19 @@ export default function DailyDots() {
     </div>
 
   </div>
+  {/* Footer */}
+  <footer className="mt-16 text-center text-sm text-gray-400 font-delius">
+    Made with 🩶 and lists
+    <span className="mx-2">·</span>
+    <a
+      href="https://github.com/KateHickey26/daily-dots-app"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline hover:text-gray-600 transition-colors"
+    >
+      GitHub
+    </a>
+  </footer>
 
   {/* Font previews
   <div className="max-w-3xl mx-auto mt-10 space-y-6">
