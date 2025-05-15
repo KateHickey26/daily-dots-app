@@ -38,6 +38,22 @@ export default function DailyDots() {
     return jsDay === 0 ? 6 : jsDay - 1; // Our array starts with Monday = 0
   };
 
+  const getCurrentWeekDays = () => {
+    const startOfWeek = new Date(today);
+    const day = startOfWeek.getDay(); // 0 (Sun) – 6 (Sat)
+    const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // Monday start
+    const weekDays = [];
+  
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(currentYear, today.getMonth(), diff + i);
+      if (date.getMonth() === today.getMonth()) {
+        weekDays.push(date.getDate());
+      }
+    }
+  
+    return weekDays;
+  };
+  
   const calculateStreak = (checks) => {
     const today = new Date().getDay(); // Sunday = 0
     const todayIndex = today === 0 ? 6 : today - 1; // align to your Mon–Sun array
@@ -53,10 +69,12 @@ export default function DailyDots() {
     return streak;
   };
 
+  const currentWeekDays = getCurrentWeekDays();
+
   return (
     
-    <div className="relative min-h-screen pt-20 p-10 font-body bg-neutral-100">
-
+    <div className="relative min-h-screen pt-40 p-10 font-body bg-neutral-100">
+      
       {/* Bunting */}
       <img
         src="/bunting-transparent.png"  
@@ -74,20 +92,23 @@ export default function DailyDots() {
         </div>
         <div className="text-[8px] text-gray-400 mb-0">{currentYear}</div>
           <div className="grid grid-cols-7 gap-0.2 text-[8px]">
-            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => (
+            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => (
               <div key={d} className="font-bold text-gray-500">{d}</div>
             ))}
-            {Array.from({ length: new Date(currentYear, today.getMonth(), 1).getDay() }).map((_, i) => (
+            {Array.from({ length: (new Date(currentYear, today.getMonth(), 1).getDay() + 6) % 7 }).map((_, i) => (
               <div key={`pad-${i}`} />
             ))}
             {dayArray.map((day) => (
               <div
                 key={day}
-                className={`w-3 h-3 text-[9px] font-semibold flex items-center justify-center rounded-sm
-                  ${day === currentDay ? 'bg-green-200 text-black shadow-inner' : 'text-gray-700'}
+                className={`relative w-3 h-3 text-[9px] font-semibold flex items-center justify-center rounded-sm
+                  ${currentWeekDays.includes(day) ? 'bg-green-300' : ''}
                 `}
               >
                 {day}
+                {day === currentDay && (
+                  <div className="absolute inset-0 border border-gray-400 rounded-full"></div>
+                )}
               </div>
             ))}
           </div>
@@ -157,6 +178,7 @@ export default function DailyDots() {
       }}
     ></div>
 
+    {/* Table */}
     <table className="min-w-full border border-gray-300 rounded-xl">
       <thead className="bg-paper text-ink">
         <tr>
@@ -221,7 +243,45 @@ export default function DailyDots() {
         ))}
       </tbody>
     </table>
-    
+
+    <div className="flex justify-end gap-2">
+      {/* Add Habit Button */}
+      <button
+        onClick={() => {
+          if (habits.length < 10) {
+            setHabits([...habits, '']);
+            setHabitChecks([...habitChecks, Array(7).fill(false)]);
+          }
+        }}
+        disabled={habits.length >= 10}
+        className={`text-xs mt-6 w-32 px-4 py-2 rounded-full transition text-center ${
+          habits.length >= 10
+            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+            : 'bg-purple-200 hover:bg-purple-300'
+        }`}
+      >
+        ➕ Add Habit
+      </button>
+
+      {/* Remove Habit Button */}
+      <button
+        onClick={() => {
+          if (habits.length > 1) {
+            setHabits(habits.slice(0, -1));
+            setHabitChecks(habitChecks.slice(0, -1));
+          }
+        }}
+        disabled={habits.length <= 1}
+        className={`mt-6 w-32 text-xs px-4 py-2 rounded-full transition ${
+          habits.length <= 1
+            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+            : 'bg-purple-200 hover:bg-purple-300'
+        }`}
+      >
+        ➖ Remove Habit
+      </button>
+    </div>
+
   </div>
 
   {/* Font previews
