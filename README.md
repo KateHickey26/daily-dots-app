@@ -1,6 +1,9 @@
 # Daily Dots
 
-**Daily Dots** is a minimalist, bullet journal–style habit tracker that lets you track habits each week using a simple and cosy interface. Stay motivated with streaks as you build your daily routine.
+**Daily Dots** is a playful, minimalist habit tracker styled like a digital bullet journal.Track habits each week using a simple and cosy interface.
+Built with React and Tailwind CSS.
+
+![Daily Dots Screenshot](./src/assets/daily-dots-app.png)
 
 ---
 
